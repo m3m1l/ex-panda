@@ -1,12 +1,14 @@
 # ex-panda
 Wersja beta 0.2
+
 Developed by Email Zelman
 
 ## Konfiguracja
 
-- Plik abbrv_list.txt powinien być sformatowany w następujący sposób (klucz i wartość w jednej linii, w pojedynczych apostrofach, oddzielone 
+Plik abbrv_list.txt powinien być sformatowany w następujący sposób (klucz i wartość w jednej linii, w pojedynczych apostrofach, oddzielone 
 spacją):
-'skrt' 'nowy text ktory pojawi sie w miejscu skrt'
+
+    'skrt' 'nowy text ktory pojawi sie w miejscu skrt'
 
 
 Jeśli chcemy dodać znak nowej linii, w danym miejscu należy umieścić \n, przykład:
