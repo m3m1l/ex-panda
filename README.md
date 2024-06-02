@@ -31,8 +31,8 @@ Don't use apostrophes in the first part, as it will confuse the program.
 
 If you want to use your own shortcut to expand your text instead of hitting space, edit the config.ini file:
 
-    use_shortcut=True           # Must be set to true
-    shrtct=alt+`                #
+    shrtct=space                    # Default value
+    match_suffix=True               # Set to false if you don't want suffix matches (check LIMITATIONS for more info)
 
 
 ## LIMITATIONS
