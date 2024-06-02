@@ -1,46 +1,33 @@
 """
-Wersja beta 0.2
+Wersja beta 0.3
 Developed by Email Zelman
-
-Konfiguracja:
-
-- Plik abbrv_list.txt powinien być sformatowany w następujący sposób (klucz i wartość w jednej linii, w pojedynczych apostrofach, oddzielone spacją):
-'skrt' 'nowy text ktory pojawi sie w miejscu skrt'
-
-Jeśli chcemy dodać znak nowej linii, w danym miejscu należy umieścić \n, przykład:
-
-'txt' 'bla bla bla\nnowa linia\nbla bla bla'
-
-Co da nam wynik:
-bla bla bla
-nowa linia
-bla bla bla
-
-
-WAŻNE!!! Jeśli chcemy używać apostrofów w części nowego tekstu, należy je wy-escapeować znakiem \
-
-Przykład:
-'_hi' 'Hello, this is techstop\'s Emil speaking'
-
-Wynik:
-Hello, this is techstop's Emil speaking
-
-Nie używajcie apostrofów w sekcji tesktu podmienianego bo wszystko sie zdupczy i program się nie uruchomi.
-'a'b' 'nowy text' <--- Źle
-
-Polskie znaki na ten moment nie są wspierane, tylko ASCII
 """
 
 import keyboard
 import re
+import os
+from config_handler import use_shortcut, shrtct
 
-
-filename = 'abbrv_list.txt'
 abbrv_dict = {}
+cwd = os.getcwd()
+abbrv_filename = os.path.join(cwd, 'abbrv_list.txt')       # Absolute path
 
-print('=========================Loading abbreviation file...====================')
+# Check if the abbrv_list file exists in the current directory and create it if it doesn't
+if not os.path.isfile(abbrv_filename):
+    open(abbrv_filename, 'w').close()
 
-with open(filename, 'r') as abbr_file:
+
+def add_replacement_text(source_text, replacement_text):
+    replacement = '\b'*(len(source_text)+1) + replacement_text
+    callback = lambda: keyboard.write(replacement)
+    if use_shortcut:
+        keyboard.add_word_listener(source_text, callback, shrtct, match_suffix=False, timeout=2)
+    else:
+        keyboard.add_word_listener(source_text, callback, 'space', match_suffix=False, timeout=2)
+
+print('========================= Loading abbreviation file... ====================')
+
+with open(abbrv_filename, 'r') as abbr_file:
     for line in abbr_file:
         match = re.match(r"'([^']*)' '((?:[^'\\]|\\.)*)'", line.strip())
         if match:
@@ -48,20 +35,17 @@ with open(filename, 'r') as abbr_file:
             abbrv = match.group(2).replace("\\'", "'").replace("\\n", "\n")
             abbrv_dict[key] = abbrv
 
- 
+print('========================= Loading finished ====================\n')
 
-print('=========================Loading finished====================\n')
-
-
-print('=========================Loading abbreviation list...====================\n\n')
-
+print('========================= Loading abbreviation list... ====================')
 
 for (abbrv, target) in abbrv_dict.items():
-    keyboard.add_abbreviation(abbrv, target)
+    add_replacement_text(abbrv, target)
     print('\nabbrv :', abbrv, '\ntarget :\n', target)
 
+print('\n========================= Loading finished ====================')
 
-print('\n\n=========================Loading finished====================')
+if use_shortcut:
+    print('Using the following shortcut:', shrtct)
 
 keyboard.wait()
-
