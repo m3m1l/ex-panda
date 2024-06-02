@@ -1,12 +1,12 @@
 """
-Wersja beta 0.3
+Version beta 0.314159
 Developed by Email Zelman
 """
 
 import keyboard
 import re
 import os
-from config_handler import use_shortcut, shrtct
+from config_handler import shrtct, match_suffix
 
 abbrv_dict = {}
 cwd = os.getcwd()
@@ -15,18 +15,11 @@ abbrv_filename = os.path.join(cwd, 'abbrv_list.txt')       # Absolute path
 def add_replacement_text(source_text, replacement_text):
     replacement = '\b'*(len(source_text)+1) + replacement_text
     callback = lambda: keyboard.write(replacement)
-    if use_shortcut:
-        keyboard.add_word_listener(source_text, callback, shrtct, match_suffix=False, timeout=2)
-    else:
-        keyboard.add_word_listener(source_text, callback, 'space', match_suffix=False, timeout=2)
-
-
+    keyboard.add_word_listener(source_text, callback, shrtct, match_suffix, timeout=2)
 
 # Check if the abbrv_list file exists in the current directory and create it if it doesn't
 if not os.path.isfile(abbrv_filename):
     open(abbrv_filename, 'w').close()
-
-
 
 print('========================= Loading abbreviation file... ====================')
 
@@ -43,8 +36,6 @@ for (abbrv, target) in abbrv_dict.items():
     print('\nabbrv :', abbrv, '\ntarget :\n', target)
 
 print('\n========================= Loading finished ====================')
-
-if use_shortcut:
-    print('Using the following shortcut:', shrtct)
+print('Using the following shortcut:', shrtct)
 
 keyboard.wait()

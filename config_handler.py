@@ -9,10 +9,8 @@ config_filename_abs = os.path.join(os.getcwd(), config_filename)            # Ab
 try:
     config.read(config_filename_abs)
     shrtct = config['Shortcut']['shrtct']
-    use_shortcut = config.getboolean('Shortcut', 'use_shortcut')
+    match_suffix = config.getboolean('Shortcut', 'match_suffix')
 
 except:
     print("The config.ini file is missing or is incorrectly formatted.")
     raise SystemExit()
-
-
