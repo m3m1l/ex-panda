@@ -8,7 +8,7 @@ config_filename_abs = os.path.join(os.getcwd(), config_filename)            # Ab
 
 try:
     config.read(config_filename_abs)
-    shrtct = config['Shortcut']['shrtct']
+    trigger = config['Shortcut']['trigger']
     match_suffix = config.getboolean('Shortcut', 'match_suffix')
 
 except:

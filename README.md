@@ -1,6 +1,6 @@
 ## Configuration
 
-File called abbrv_list.txt should be formatted in the following way (key and values in one line, in apostrophes, seperated by space):
+File called abbrv_list.txt should be formatted in the following way (key and values in one line, inside apostrophes, seperated by space):
 
     'txt' 'text that will appear in place of txt'
 
@@ -29,9 +29,9 @@ Don't use apostrophes in the first part, as it will confuse the program.
 
     'a'b' 'text to appear' <--- Wrong
 
-If you want to use your own shortcut to expand your text instead of hitting space, edit the config.ini file:
+If you want to use your own trigger to expand your text instead of hitting space, edit the config.ini file:
 
-    shrtct=space                    # Default value
+    trigger=space                   # Default value = space. Can be a letter or a special character (e.g. esc)
     match_suffix=True               # Set to false if you don't want suffix matches (check LIMITATIONS for more info)
 
 
@@ -55,4 +55,4 @@ This is helpful when using personal shortcut and not the default trigger (space)
 ### Other limitations
 
 - Polish and other similar language-specific characters are not supported, only `ASCII`
-- Some shortcuts cannot be used as they may be utilized by other parts of the system or a program
+- Shortcuts can't be used as triggers as they invoke OS-specific behaviour. It's recommended to use the default space or a singular character (e.g. `)
