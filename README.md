@@ -1,33 +1,7 @@
 ## Configuration
 
-File called abbrv_list.txt should be formatted in the following way (key and values in one line, inside apostrophes, seperated by space):
-
-    'txt' 'text that will appear in place of txt'
-
-If we want to add a newline, the \n character should be used:
-
-    'txt' 'blah blah blah\nnew line\nblah blah blah'
-
-Result:
-    
-    bla bla bla
-    new line
-    bla bla bla
-
-
-IMPORTANT!! If we want to use apostrophes in the expandable text part, it must be escaped with \
-
-For example:
-   
-    '_hi' 'Hello, it\'s your favourite boy, m3m1l'
-
-Which gives us:
-
-    Hello, it's your favourite boy, m3m1l
-
-Don't use apostrophes in the first part, as it will confuse the program.
-
-    'a'b' 'text to appear' <--- Wrong
+Ex-panda useds json config file called abbreviations.json. As of now abbreviations and targets must be added manually, following the example config's schema.
+This will be changed once GUI is introduced.
 
 If you want to use your own trigger to expand your text instead of hitting space, edit the config.ini file:
 

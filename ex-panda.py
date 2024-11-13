@@ -1,16 +1,15 @@
 """
-Version beta 0.31415926535
+Version beta 0.4
 Developed by Email Zelman
 """
 
 import keyboard
-import re
 import os
+import json
 from config_handler import trigger, match_suffix
 
-abbrv_dict = {}
-cwd = os.getcwd()
-abbrv_filename = os.path.join(cwd, 'abbrv_list.txt')       # Absolute path
+abbrv_filename = os.path.join(os.getcwd(), 'abbreviations.json')       # Absolute path
+
 
 def add_replacement_text(source_text, replacement_text):
     replacement = '\b'*(len(source_text)+1) + replacement_text
@@ -23,19 +22,15 @@ if not os.path.isfile(abbrv_filename):
 
 print('========================= Loading abbreviation file... ====================')
 
-with open(abbrv_filename, 'r') as abbr_file:
-    for line in abbr_file:
-        match = re.match(r"'([^']*)' '((?:[^'\\]|\\.)*)'", line.strip())
-        if match:
-            key = match.group(1)
-            abbrv = match.group(2).replace("\\'", "'").replace("\\n", "\n")
-            abbrv_dict[key] = abbrv
+with open(abbrv_filename, 'r') as abbrv_json_file:
+     json_data = json.load(abbrv_json_file)
 
-for (abbrv, target) in abbrv_dict.items():
-    add_replacement_text(abbrv, target)
+for (abbrv, target) in json_data.items():
     print('\nabbrv :', abbrv, '\ntarget :\n', target)
+    add_replacement_text(abbrv, target)
 
 print('\n========================= Loading finished ====================')
 print('Using the following trigger:', trigger)
+
 
 keyboard.wait()
