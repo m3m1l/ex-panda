@@ -1,13 +1,22 @@
 ## Configuration
 
-Ex-panda useds json config file called abbreviations.json. As of now abbreviations and targets must be added manually, following the example config's schema.
-This will be changed once GUI is introduced.
+Ex-panda now has a very limited GUI.
+Abbreviations can be added in the main window. Just add the abrreviation name in the left input entry, target in the right and press "add new".
+If abbreviation already exists, but the target is different, the target will be updated upon pressing the "add new" button.
+As of now the window can't be scrollable so if you have many abbreviations they won't show up. 
+Also, abbreviations can't be removed (yet), if you want to remove one you need to do it manually by from the "abbreviations.json" file (make sure it's formatted properly).
+
+**It's highly recommended to add a special character like _ at the beginning of your abbreviations to avoid accidental text expansions.**
 
 If you want to use your own trigger to expand your text instead of hitting space, edit the config.ini file:
 
     trigger=space                   # Default value = space. Can be a letter or a special character (e.g. esc)
     match_suffix=True               # Set to false if you don't want suffix matches (check LIMITATIONS for more info)
 
+## Migrating from earlier versions
+
+If you used ex-panda version 0.3 or lower, you'll need to migrate your abbreviations file using the script located in the "misc" folder.
+Just put your "abbrv_list.txt" file in the misc folder, run the script (json_migrator.py) and replace the created "abbreviations.json" file in the main folder.
 
 ## LIMITATIONS
 
