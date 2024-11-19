@@ -1,5 +1,5 @@
 """
-Version beta 0.5
+Version beta 0.51
 Developed by Email Zelman
 """
 
@@ -19,6 +19,7 @@ def add_new_abbrv():
     with open(abbrv_filename, 'w') as abbrv_json_file:
         json.dump(json_data, abbrv_json_file, indent = 2)
     update_labels()
+    add_replacement_text(add_abbrv_text.get(), add_target_text.get())
 
 
 label_frames = []   # List to keep track of created label frames
@@ -37,7 +38,7 @@ def update_labels():
         abbrv_target.pack(side = 'left', padx = 100)
         abbrv_frame.pack(pady = 5)
         label_frames.append(abbrv_frame)
-        add_replacement_text(abbrv, target)
+        
 
 
 def add_replacement_text(source_text, replacement_text):
@@ -60,7 +61,7 @@ for (abbrv, target) in json_data.items():
 
 # GUI setup
 window = tk.Tk()
-window.title('ex-panda v0.5')
+window.title('ex-panda v0.51')
 window.geometry('500x600')
 window.resizable(False, True)                           # TODO Check if height can be resized
 
