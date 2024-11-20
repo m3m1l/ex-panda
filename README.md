@@ -1,10 +1,12 @@
 ## Configuration
 
 Ex-panda now has a very limited GUI.
-Abbreviations can be added in the main window. Just add the abrreviation name in the left input entry, target in the right and press "add new".
+Abbreviations can be added and removed in the main app window. 
+
+To add one, add the abbreviation name in the left input entry, target in the right and press "add new".
+To remove, add the currently existing abbreviation name in the left input entry and press "Remove one".
 If abbreviation already exists, but the target is different, the target will be updated upon pressing the "add new" button.
-As of now the window can't be scrollable so if you have many abbreviations they won't show up. 
-Also, abbreviations can't be removed (yet), if you want to remove one you need to do it manually by from the "abbreviations.json" file (make sure it's formatted properly).
+As of now the window can't be scrollable so if you have many abbreviations they won't show up.
 
 **It's highly recommended to add a special character like _ at the beginning of your abbreviations to avoid accidental text expansions.**
 
@@ -22,7 +24,6 @@ Just put your "abbrv_list.txt" file in the misc folder, run the script (json_mig
 
 The program utilizes [the python keyboard module](https://pypi.org/project/keyboard/), which reads user's keyboard input char by char.
 This allows for easy system-wide funcionality, but all of the limitations that affect the original keyboard module affect this program too.
-For example, in order to run this program on Linux root is needed to read device files /dev/input/input*
 
 ---
 
@@ -39,3 +40,4 @@ This is helpful when using personal shortcut and not the default trigger (space)
 
 - Polish and other similar language-specific characters are not supported, only `ASCII`
 - Shortcuts can't be used as triggers as they invoke OS-specific behaviour. It's recommended to use the default space or a singular character (e.g. `)
+- Linux is not supported, app was only tested and verified to work on Windows.

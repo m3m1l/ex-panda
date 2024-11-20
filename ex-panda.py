@@ -1,5 +1,5 @@
 """
-Version beta 0.51
+Version beta 0.55
 Developed by Email Zelman
 """
 
@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import ttk
 from config_handler import trigger, match_suffix
 
+version = 0.55
 abbrv_filename = os.path.join(os.getcwd(), 'abbreviations.json')        # Absolute path
 
 
@@ -21,6 +22,18 @@ def add_new_abbrv():
     update_labels()
     add_replacement_text(add_abbrv_text.get(), add_target_text.get())
 
+def rm_abbreviation():
+    try:
+        del json_data[add_abbrv_text.get()]
+        with open(abbrv_filename, 'w') as abbrv_json_file:
+            json.dump(json_data, abbrv_json_file, indent = 2)
+    except Exception:
+        print('The abbreviation called ', add_abbrv_text.get(), 'doesn\'t exist!')
+
+    update_labels()
+    keyboard.unhook_all()
+    for (abbrv, target) in json_data.items():
+        add_replacement_text(abbrv, target)
 
 label_frames = []   # List to keep track of created label frames
 def update_labels():
@@ -61,7 +74,7 @@ for (abbrv, target) in json_data.items():
 
 # GUI setup
 window = tk.Tk()
-window.title('ex-panda v0.51')
+window.title(f'ex-panda v.{version}')
 window.geometry('500x600')
 window.resizable(False, True)                           # TODO Check if height can be resized
 
@@ -76,9 +89,14 @@ add_abbrv_frame.pack(side = 'top', pady = 10)
 add_abbrv_entry.pack(side = 'left')
 add_target_entry.pack(side = 'left')
 
-# Adding new abbrv button
-add_abbrv_button = tk.Button(master = window, text = 'Add new', command = lambda: add_new_abbrv())
-add_abbrv_button.pack(side = 'top', pady = 5)
+# Adding create and remove abbrv buttons
+button_frame = tk.Frame(master = window)
+button_frame.pack(side = 'top', pady = 5)
+
+add_abbrv_button = tk.Button(master = button_frame, text = 'Add new', command = lambda: add_new_abbrv())
+add_abbrv_button.pack(side = 'left', padx =  25)
+rm_abbrv_button = tk.Button(master = button_frame, text = 'Remove one', command = lambda: rm_abbreviation())
+rm_abbrv_button.pack(side = 'left', padx = 25)
 
 # Display labels upon launch (this func is also used to update the labels if new one is added)
 update_labels()
