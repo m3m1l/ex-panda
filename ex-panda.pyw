@@ -1,5 +1,5 @@
 """
-Version beta 0.55
+Version beta 0.56
 Developed by Email Zelman
 """
 
@@ -8,7 +8,6 @@ import os
 import json
 import tkinter as tk
 from tkinter import ttk
-from config_handler import trigger, match_suffix
 
 version = 0.55
 abbrv_filename = os.path.join(os.getcwd(), 'abbreviations.json')        # Absolute path
@@ -20,7 +19,7 @@ def add_new_abbrv():
     with open(abbrv_filename, 'w') as abbrv_json_file:
         json.dump(json_data, abbrv_json_file, indent = 2)
     update_labels()
-    add_replacement_text(add_abbrv_text.get(), add_target_text.get())
+    keyboard.add_abbreviation(add_abbrv_text.get(), add_target_text.get())
 
 def rm_abbreviation():
     try:
@@ -33,7 +32,7 @@ def rm_abbreviation():
     update_labels()
     keyboard.unhook_all()
     for (abbrv, target) in json_data.items():
-        add_replacement_text(abbrv, target)
+        keyboard.add_abbreviation(abbrv, target)
 
 label_frames = []   # List to keep track of created label frames
 def update_labels():
@@ -54,11 +53,6 @@ def update_labels():
         
 
 
-def add_replacement_text(source_text, replacement_text):
-    replacement = '\b'*(len(source_text)+1) + replacement_text
-    callback = lambda: keyboard.write(replacement)
-    keyboard.add_word_listener(source_text, callback, trigger, match_suffix, timeout=2)
-
 # Check if the abbrv_list file exists in the current directory and create it if it doesn't
 if not os.path.isfile(abbrv_filename):
     open(abbrv_filename, 'w').close()
@@ -69,7 +63,7 @@ with open(abbrv_filename, 'r') as abbrv_json_file:
      json_data = json.load(abbrv_json_file)
 
 for (abbrv, target) in json_data.items():
-    add_replacement_text(abbrv, target)
+    keyboard.add_abbreviation(abbrv, target)
     
 
 # GUI setup

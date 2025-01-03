@@ -10,11 +10,6 @@ As of now the window can't be scrollable so if you have many abbreviations they 
 
 **It's highly recommended to add a special character like _ at the beginning of your abbreviations to avoid accidental text expansions.**
 
-If you want to use your own trigger to expand your text instead of hitting space, edit the config.ini file:
-
-    trigger=space                   # Default value = space. Can be a letter or a special character (e.g. esc)
-    match_suffix=True               # Set to false if you don't want suffix matches (check LIMITATIONS for more info)
-
 ## Migrating from earlier versions
 
 If you used ex-panda version 0.3 or lower, you'll need to migrate your abbreviations file using the script located in the "misc" folder.
@@ -38,6 +33,5 @@ This is helpful when using personal shortcut and not the default trigger (space)
 
 ### Other limitations
 
-- Polish and other similar language-specific characters are not supported, only `ASCII`
-- Shortcuts can't be used as triggers as they invoke OS-specific behaviour. It's recommended to use the default space or a singular character (e.g. `)
+- Only space used as the expand button
 - Linux is not supported, app was only tested and verified to work on Windows.
