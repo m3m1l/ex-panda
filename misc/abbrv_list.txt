@@ -1,3 +1,0 @@
-'txt' 'your text here'
-'buzz' 'Good Morning'
-'br' 'Best Regards,\nService Desk'

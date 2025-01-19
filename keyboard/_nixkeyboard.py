@@ -5,7 +5,7 @@ from time import time as now
 from collections import namedtuple
 from ._keyboard_event import KeyboardEvent, KEY_DOWN, KEY_UP
 from ._canonical_names import all_modifiers, normalize_name
-from ._nixcommon import EV_KEY, aggregate_devices
+from ._nixcommon import EV_KEY, aggregate_devices, ensure_root
 
 # TODO: start by reading current keyboard state, as to not missing any already pressed keys.
 # See: http://stackoverflow.com/questions/3649874/how-to-get-keyboard-state-in-linux
@@ -45,7 +45,7 @@ Use `dumpkeys --keys-only` to list all scan codes and their names. We
 then parse the output and built a table. For each scan code and modifiers we
 have a list of names and vice-versa.
 """
-from subprocess import check_output, CalledProcessError, PIPE
+from subprocess import check_output
 from collections import defaultdict
 import re
 
@@ -61,6 +61,7 @@ def register_key(key_and_modifiers, name):
 
 def build_tables():
     if to_name and from_name: return
+    ensure_root()
 
     modifiers_bits = {
         'shift': 1,
@@ -69,15 +70,7 @@ def build_tables():
         'alt': 8,
     }
     keycode_template = r'^keycode\s+(\d+)\s+=(.*?)$'
-    try:
-        dump = check_output(['dumpkeys', '--keys-only'], universal_newlines=True)
-    except CalledProcessError as e:
-        if e.returncode == 1:
-            raise ValueError('Failed to run dumpkeys to get key names. Check if your user is part of the "tty" group, and if not, add it with "sudo usermod -a -G tty USER".')
-        else:
-            raise
-
-
+    dump = check_output(['dumpkeys', '--keys-only'], universal_newlines=True)
     for str_scan_code, str_names in re.findall(keycode_template, dump, re.MULTILINE):
         scan_code = int(str_scan_code)
         for i, str_name in enumerate(str_names.strip().split()):
@@ -91,15 +84,9 @@ def build_tables():
     # dumpkeys consistently misreports the Windows key, sometimes
     # skipping it completely or reporting as 'alt. 125 = left win,
     # 126 = right win.
-    if (125, ()) not in to_name or to_name[(125, ())] == ['alt']:
-        to_name[(125, ())].clear()
-        if (125, ()) in from_name['alt']:
-            from_name['alt'].remove((125, ()))
+    if (125, ()) not in to_name or to_name[(125, ())] == 'alt':
         register_key((125, ()), 'windows')
-    if (126, ()) not in to_name or to_name[(126, ())] == ['alt']:
-        to_name[(126, ())].clear()
-        if (126, ()) in from_name['alt']:
-            from_name['alt'].remove((126, ()))
+    if (126, ()) not in to_name or to_name[(126, ())] == 'alt':
         register_key((126, ()), 'windows')
 
     # The menu key is usually skipped altogether, so we also add it manually.
@@ -119,6 +106,7 @@ device = None
 def build_device():
     global device
     if device: return
+    ensure_root()
     device = aggregate_devices('kbd')
 
 def init():
